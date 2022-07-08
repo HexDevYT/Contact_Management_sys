@@ -13,6 +13,7 @@ void Make_Contact();
 void Search_Contact();
 void Delete_Contact();
 void Edit_contact();
+void Print_list();
 
 int main(void)
 {
@@ -35,10 +36,7 @@ int main(void)
     if(choice == 1)
         Make_Contact();
     else if(choice == 2)
-    {
-        printf("Coming soon...\nPress any key to go back !");
-        getchar();
-    }
+        Print_list();  
     else if(choice == 3)
         Search_Contact();
     else if(choice == 4)
@@ -136,7 +134,9 @@ void Delete_Contact()
     file_name();
     // Removing and printing error if function failed
     if(remove(file) == 1)
-        printf("Failed to delete the contact !");
+        printf("\nFailed to delete the contact !");
+    else
+        printf("\nSuccesfully deleted the contact !");
     
     printf("\nPress any key to go back !");
     getchar();
@@ -155,14 +155,47 @@ void Edit_contact()
     file_name();
     // Reading the file
     ptr = fopen(file, "r");
-    while((ch = fgetc(ptr)) != EOF)
-        printf("%c",ch);
 
-    fclose(ptr);
-    // Deleting the file
-    remove(file);
-    printf("\n\nEnter new information below !\n");
-    Make_Contact();
+    if(ptr == NULL)
+    {
+        printf("No contact is saved with this name !\nPress any key to continue !");
+        getchar();
+    }
+    else
+    {
+        while((ch = fgetc(ptr)) != EOF)
+            printf("%c",ch);
+
+        fclose(ptr);
+        // Deleting the file
+        remove(file);
+        printf("\n\nEnter new information below !\n");
+        Make_Contact();
+    }
+}
+
+void Print_list()
+{
+    int i = 1;
+    char ch[17];
+    system("dir Contacts /B /A-D > Contacts\\list.txt");
+
+    FILE* ptr = fopen("Contacts\\list.txt", "r");
+    
+    printf("Contacts :\n");
+    while(fgets(ch, 17, ptr) != NULL)
+    {
+        if(strcmp(ch, "list.txt\n") == 0)
+            continue;
+
+        ch[strlen(ch)-5] = '\0';
+        printf("%d> %s\n", i, ch);
+        i++;
+    }
+
+    fflush(stdin);
+    printf("\nPress any key to go back !");
+    getchar();
 }
 
 void file_name()
