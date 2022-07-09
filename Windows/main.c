@@ -9,7 +9,7 @@ char file[25];
 
 // All functions
 void file_name();
-void Make_Contact();
+void Make_Contact(int);
 void Search_Contact();
 void Delete_Contact();
 void Edit_contact();
@@ -34,7 +34,7 @@ int main(void)
 
     // Calling functions according to user's choice
     if(choice == 1)
-        Make_Contact();
+        Make_Contact(1);
     else if(choice == 2)
         Print_list();  
     else if(choice == 3)
@@ -50,7 +50,7 @@ int main(void)
     return 0;
 }
 
-void Make_Contact()
+void Make_Contact(int d)
 {
     char Phone_no[15];
     char Address[20];
@@ -58,16 +58,15 @@ void Make_Contact()
 
     // Heading
     printf("\n--# INPUT THE INFORMATION #--\n\n");
-    fflush(stdin);
+    if(d)
+        getchar();
 
     // Taking input of variables
     printf("Name: ");
     fgets(Name, 10, stdin);
-    fflush(stdin);
 
     printf("Phone no: ");
     fgets(Phone_no, 15, stdin);
-    fflush(stdin);
 
     printf("Address: ");
     fgets(Address, 20, stdin);
@@ -103,7 +102,7 @@ void Make_Contact()
 void Search_Contact()
 {
     char ch;
-    fflush(stdin);
+    getchar();
     // Taking the input of name
     printf("Enter the name for searching the contact: ");
     fgets(Name, 12, stdin);
@@ -128,7 +127,7 @@ void Delete_Contact()
 {
     // Taking name to remove
     printf("Enter the name for deleting: ");
-    fflush(stdin);
+    getchar();
     fgets(Name, 12, stdin);
 
     file_name();
@@ -147,7 +146,7 @@ void Edit_contact()
     char ch;
     int e;
     FILE* ptr = NULL;
-    fflush(stdin);
+    getchar();
     // Taking the input of name
     printf("Enter the name for editing the contact: ");
     fgets(Name, 12, stdin);
@@ -170,7 +169,7 @@ void Edit_contact()
         // Deleting the file
         remove(file);
         printf("\n\nEnter new information below !\n");
-        Make_Contact();
+        Make_Contact(0);
     }
 }
 
@@ -193,7 +192,7 @@ void Print_list()
         i++;
     }
 
-    fflush(stdin);
+    getchar();
     printf("\nPress any key to go back !");
     getchar();
 }
